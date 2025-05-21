@@ -39,6 +39,13 @@ public class RobotTeleopTank_Iterative extends OpMode { // init() runs once at s
         double leftPower = -gamepad1.left_stick_y; // gamepad 1 is the primary controller
         double rightPower = -gamepad1.right_stick_y; // inverts axis as joysticks return 01 forward and 1 backward, this makes robot go forward when we push forwards (to us) the joystick
 // this is cool because the amount you push the gamepad will be the speed :D
+
+        /*
+        double speedModifier = 0.5; // Adjust this value as needed
+        double leftPower = -gamepad1.left_stick_y * speedModifier;
+        double rightPower = -gamepad1.right_stick_y * speedModifier;
+*/
+
         leftFrontDrive.setPower(leftPower); // applies power to each motor
         leftBackDrive.setPower(leftPower);
         rightFrontDrive.setPower(rightPower);
