@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Double.max;
+import static java.lang.Math.abs;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,7 +15,9 @@ public class RobotTeleopTank_Iterative extends OpMode { // init() runs once at s
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-
+    public double leftPower;
+    public double rightPower;
+    public double scalar;
     @Override
     public void init() {
         telemetry.addData("Status", "Initializing");
@@ -26,7 +31,7 @@ public class RobotTeleopTank_Iterative extends OpMode { // init() runs once at s
         // Set motor directions
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // make sure that the robot is wired correctly if need change this to change direction
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD); // farward
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized"); // SO COOOL :DDDDDDDD
@@ -36,15 +41,30 @@ public class RobotTeleopTank_Iterative extends OpMode { // init() runs once at s
 
     @Override
     public void loop() {
-        double leftPower = -gamepad1.left_stick_y; // gamepad 1 is the primary controller
-        double rightPower = -gamepad1.right_stick_y; // inverts axis as joysticks return 01 forward and 1 backward, this makes robot go forward when we push forwards (to us) the joystick
-// this is cool because the amount you push the gamepad will be the speed :D
+
+        leftPower = -gamepad1.left_stick_y - (-gamepad1.right_stick_x); // gamepad 1 is the primary controller
+        rightPower = -gamepad1.left_stick_y - gamepad1.right_stick_x;
+
+        //poo linearop
+
+        // Normalize
+        scalar = max((Math.abs(leftPower)),Math.abs(rightPower));
+
+        if(scalar > 1) {
+            // divide by max value to scale the max value to be exactly 1 and scale other value to keep the same ratio as there both divided by same value
+            leftPower /= scalar;
+            rightPower /= scalar;
+        }
+
+
+        // inverts axis as joysticks return -1 forward and 1 backward, this makes robot go forward when we push forwards (to us) the joystick
+        // this is cool because the amount you push the gamepad will be the speed :D
 
         /*
         double speedModifier = 0.5; // Adjust this value as needed
         double leftPower = -gamepad1.left_stick_y * speedModifier;
         double rightPower = -gamepad1.right_stick_y * speedModifier;
-*/
+        */
 
         leftFrontDrive.setPower(leftPower); // applies power to each motor
         leftBackDrive.setPower(leftPower);
@@ -56,7 +76,7 @@ public class RobotTeleopTank_Iterative extends OpMode { // init() runs once at s
         telemetry.update();
     }
 }
-/* future refference
+/* future reference
 
 the following is yt video's configuration as to how to connect each motor
 _______________________________________________________________________________
