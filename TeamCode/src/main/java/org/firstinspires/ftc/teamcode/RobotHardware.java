@@ -15,7 +15,7 @@ public class RobotHardware {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
 
-    // Constants
+    // Constantinos
     public static final double ARM_UP_POWER    =  0.45;
     public static final double ARM_DOWN_POWER  = -0.45;
 
@@ -30,7 +30,7 @@ public class RobotHardware {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive  = hardwareMap.get(DcMotor.class, "right_back_drive");
 
-        // Motor directions (adjust as needed)
+        // Motor directions
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
